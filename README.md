@@ -34,7 +34,7 @@ SkinConsult Pro is a responsive web-based skincare consultation platform that he
 ---
 
 🎥 Demo Video
-
+[Watch Video](./demo.mp4)
 ---
 
 🛠️ **Technologies Used**
