@@ -1,7 +1,3 @@
-Here is your **README.md content** for **SkinConsult Pro**, in the same style and structure:
-
----
-
 🎯 **SkinConsult Pro - Smart Skincare Consultation Website**
 SkinConsult Pro is a responsive web-based skincare consultation platform that helps users identify their skin type, explore skincare articles, book appointments, and get personalized recommendations.
 
@@ -19,16 +15,21 @@ SkinConsult Pro is a responsive web-based skincare consultation platform that he
 
 ---
 
-📸 **Preview**
+📸 **Previews**
 🖥️ Home Page
+<img width="1920" height="1080" alt="Screenshot (9)" src="https://github.com/user-attachments/assets/35d092a0-a2f4-47da-b674-64f12c0e8691" />
 
 🧴 Skin Type Selection
+<img width="1920" height="1080" alt="Screenshot (11)" src="https://github.com/user-attachments/assets/53f626e5-5d44-4172-9201-7fd2b978fa59" />
 
 📖 Articles Section
+<img width="1920" height="1080" alt="Screenshot (13)" src="https://github.com/user-attachments/assets/3cf88986-c11c-4496-81b2-5d1f72a24fab" />
 
 📅 Appointment Booking
+<img width="1920" height="1080" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/b9aec53c-d9b0-43e1-8b4e-d41abaab5623" />
 
 ❓ FAQ Section
+<img width="1920" height="1080" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/04486e6d-2bb5-4522-9dff-339c29d6bc61" />
 
 ---
 
