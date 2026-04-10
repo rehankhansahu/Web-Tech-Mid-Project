@@ -16,6 +16,7 @@ SkinConsult Pro is a responsive web-based skincare consultation platform that he
 ---
 
 📸 **Previews**
+
 🖥️ Home Page
 <img width="1920" height="1080" alt="Screenshot (9)" src="https://github.com/user-attachments/assets/35d092a0-a2f4-47da-b674-64f12c0e8691" />
 
@@ -34,7 +35,9 @@ SkinConsult Pro is a responsive web-based skincare consultation platform that he
 ---
 
 🎥 Demo Video
+
 [Watch Video](./demo.mp4)
+
 ---
 
 🛠️ **Technologies Used**
@@ -49,7 +52,7 @@ JavaScript
 
 ├── skinconsult_pro.html
 ├── README.md
-
+├── demo.mp4
 ---
 
 📌 **How It Works**
