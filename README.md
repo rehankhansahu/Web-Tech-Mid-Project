@@ -52,7 +52,8 @@ JavaScript
 
 ├── skinconsult_pro.html
 ├── README.md
-├── demo.mp4
+└── demo.mp4
+
 ---
 
 📌 **How It Works**
