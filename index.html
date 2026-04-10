@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkinConsult Pro — Your Expert Skin Advisor</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ===================== CSS VARIABLES ===================== */
+    :root {
+      --cream: #faf6f1;
+      --blush: #e8c4b0;
+      --rose: #c97b5a;
+      --deep-rose: #a3543a;
+      --sage: #8fa68c;
+      --dark: #1c1410;
+      --charcoal: #3a2e28;
+      --warm-gray: #7a6d66;
+      --light-gray: #f0ebe5;
+      --white: #ffffff;
+      --shadow: 0 8px 40px rgba(28,20,16,0.10);
+      --shadow-lg: 0 20px 60px rgba(28,20,16,0.15);
+      --radius: 2px;
+      --radius-lg: 12px;
+      --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: var(--font-display); font-weight: 400; line-height: 1.2; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; }
+    section { position: relative; }
+
+    /* ===================== UTILITIES ===================== */
+    .text-rose { color: var(--rose); }
+    .text-sage { color: var(--sage); }
+    .bg-cream { background: var(--cream); }
+    .bg-light-gray { background: var(--light-gray); }
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      color: var(--charcoal);
+      margin-bottom: 1.2rem;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--warm-gray);
+      max-width: 540px;
+    }
+    .divider {
+      width: 48px; height: 2px;
+      background: var(--blush);
+      margin: 1.2rem 0;
+    }
+    .btn-primary-custom {
+      background: var(--rose);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.85rem 2.2rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+    }
+    .btn-primary-custom:hover {
+      background: var(--deep-rose);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,123,90,0.35);
+      color: var(--white);
+    }
+    .btn-outline-custom {
+      background: transparent;
+      color: var(--rose);
+      border: 1.5px solid var(--rose);
+      border-radius: var(--radius);
+      padding: 0.8rem 2rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+    }
+    .btn-outline-custom:hover {
+      background: var(--rose);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ===================== NAVBAR ===================== */
+    .navbar-custom {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(250,246,241,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232,196,176,0.3);
+      padding: 0.9rem 0;
+      transition: var(--transition);
+    }
+    .navbar-custom.scrolled {
+      padding: 0.6rem 0;
+      box-shadow: var(--shadow);
+    }
+    .navbar-brand-custom {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      color: var(--charcoal);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .navbar-brand-custom span { color: var(--rose); }
+    .nav-link-custom {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--charcoal) !important;
+      padding: 0.4rem 1rem !important;
+      transition: var(--transition);
+      position: relative;
+    }
+    .nav-link-custom::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 1rem; right: 1rem;
+      height: 1.5px;
+      background: var(--rose);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .nav-link-custom:hover::after,
+    .nav-link-custom.active::after { transform: scaleX(1); }
+    .nav-link-custom:hover { color: var(--rose) !important; }
+    .navbar-toggler-custom {
+      border: none;
+      background: none;
+      padding: 0.4rem;
+      cursor: pointer;
+    }
+    .toggler-bar {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--charcoal);
+      margin: 5px 0;
+      transition: var(--transition);
+    }
+
+    /* ===================== HERO ===================== */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--cream);
+      padding-top: 80px;
+      overflow: hidden;
+    }
+    .hero-visual {
+      position: relative;
+    }
+    .hero-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(232,196,176,0.5) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(143,166,140,0.15);
+      color: var(--sage);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .hero-stat {
+      text-align: center;
+      padding: 1rem;
+    }
+    .hero-stat .num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      color: var(--rose);
+      line-height: 1;
+    }
+    .hero-stat .lbl {
+      font-size: 0.75rem;
+      color: var(--warm-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .hero-blob {
+      position: absolute;
+      width: 420px; height: 420px;
+      background: radial-gradient(ellipse, rgba(232,196,176,0.35) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -80px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      color: var(--charcoal);
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em { color: var(--rose); font-style: italic; }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--warm-gray);
+      margin-bottom: 2rem;
+      max-width: 460px;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ===================== SKIN TYPE SELECTOR ===================== */
+    #skin-type { padding: 6rem 0; }
+    .skin-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin: 2.5rem 0;
+    }
+    .skin-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 2px solid transparent;
+      padding: 2rem 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .skin-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+      border-color: var(--blush);
+    }
+    .skin-card.selected {
+      border-color: var(--rose);
+      background: linear-gradient(135deg, rgba(201,123,90,0.06) 0%, rgba(232,196,176,0.15) 100%);
+    }
+    .skin-card-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.6rem;
+      transition: var(--transition);
+    }
+    .skin-card:hover .skin-card-icon,
+    .skin-card.selected .skin-card-icon {
+      transform: scale(1.1);
+    }
+    .skin-card h4 {
+      font-size: 1.3rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+    .skin-card p {
+      font-size: 0.85rem;
+      color: var(--warm-gray);
+    }
+    .skin-info-panel {
+      display: none;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--rose);
+      animation: slideDown 0.4s ease;
+    }
+    .skin-info-panel.show { display: block; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: none; }
+    }
+    .info-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .info-tab {
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      background: var(--light-gray);
+      color: var(--warm-gray);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+    .info-tab.active {
+      background: var(--rose);
+      color: var(--white);
+    }
+    .info-content { display: none; }
+    .info-content.show { display: block; animation: slideDown 0.3s ease; }
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .tip-item:last-child { border-bottom: none; }
+    .tip-icon { color: var(--sage); margin-top: 0.2rem; flex-shrink: 0; }
+
+    /* ===================== SERVICES ===================== */
+    #services { padding: 6rem 0; background: var(--light-gray); }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      height: 100%;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--rose), var(--blush));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--blush), rgba(201,123,90,0.2));
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--rose);
+      margin-bottom: 1.2rem;
+    }
+    .service-card h4 { font-size: 1.3rem; margin-bottom: 0.6rem; }
+    .service-card p { font-size: 0.9rem; color: var(--warm-gray); }
+
+    /* ===================== ARTICLES ===================== */
+    #articles { padding: 6rem 0; }
+    .article-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      height: 100%;
+      transition: var(--transition);
+      box-shadow: 0 2px 16px rgba(28,20,16,0.06);
+    }
+    .article-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    .article-img-wrap {
+      height: 210px;
+      overflow: hidden;
+      position: relative;
+    }
+    .article-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .article-card:hover .article-img-wrap img { transform: scale(1.06); }
+    .article-tag {
+      position: absolute;
+      top: 1rem; left: 1rem;
+      background: var(--rose);
+      color: var(--white);
+      border-radius: 100px;
+      padding: 0.25rem 0.8rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .article-body { padding: 1.5rem; }
+    .article-meta {
+      font-size: 0.78rem;
+      color: var(--warm-gray);
+      margin-bottom: 0.6rem;
+    }
+    .article-body h5 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .article-body p { font-size: 0.88rem; color: var(--warm-gray); margin-bottom: 1rem; }
+    .read-more {
+      font-size: 0.82rem;
+      color: var(--rose);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: var(--transition);
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .read-more:hover { gap: 0.8rem; color: var(--deep-rose); }
+
+    /* ===================== PRODUCT RECOMMENDATIONS ===================== */
+    #products { padding: 6rem 0; background: var(--light-gray); }
+    .product-filter-bar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.4rem;
+      border-radius: 100px;
+      background: var(--white);
+      color: var(--charcoal);
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1.5px solid var(--blush);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--rose);
+      color: var(--white);
+      border-color: var(--rose);
+    }
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 2px 12px rgba(28,20,16,0.06);
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .product-img-wrap {
+      height: 180px;
+      background: linear-gradient(135deg, var(--light-gray), var(--blush));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .product-body { padding: 1.2rem; }
+    .product-type {
+      font-size: 0.72rem;
+      color: var(--sage);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .product-body h5 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .product-body p { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 0.8rem; }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-price {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--rose);
+    }
+    .product-tag {
+      font-size: 0.7rem;
+      background: rgba(143,166,140,0.15);
+      color: var(--sage);
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    /* ===================== APPOINTMENT ===================== */
+    #appointment { padding: 6rem 0; }
+    .appointment-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .form-label-custom {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .form-control-custom {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      border: 1.5px solid var(--blush);
+      border-radius: var(--radius);
+      background: var(--cream);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--dark);
+      transition: var(--transition);
+      outline: none;
+    }
+    .form-control-custom:focus {
+      border-color: var(--rose);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(201,123,90,0.12);
+    }
+    .form-control-custom.error { border-color: #e04c4c; }
+    .form-error {
+      font-size: 0.78rem;
+      color: #e04c4c;
+      margin-top: 0.3rem;
+      display: none;
+    }
+    .form-error.show { display: block; }
+    .form-success {
+      background: rgba(143,166,140,0.15);
+      border: 1.5px solid var(--sage);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    .form-success.show { display: block; animation: slideDown 0.4s ease; }
+    .booking-sidebar {
+      background: linear-gradient(135deg, var(--charcoal), var(--dark));
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      color: var(--white);
+      height: 100%;
+    }
+    .booking-sidebar h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .benefit-item:last-child { border-bottom: none; }
+    .benefit-item i { color: var(--blush); }
+
+    /* ===================== FAQ ===================== */
+    #faq { padding: 6rem 0; background: var(--light-gray); }
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      margin-bottom: 0.8rem;
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(28,20,16,0.05);
+    }
+    .faq-item:hover { box-shadow: var(--shadow); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.4rem 1.8rem;
+      text-align: left;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--charcoal);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: var(--transition);
+    }
+    .faq-question:hover { color: var(--rose); }
+    .faq-icon {
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+      background: var(--light-gray);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rose);
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--rose); color: var(--white); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-answer-inner {
+      padding: 0 1.8rem 1.4rem;
+      font-size: 0.95rem;
+      color: var(--warm-gray);
+      line-height: 1.8;
+    }
+
+    /* ===================== CONTACT ===================== */
+    #contact { padding: 6rem 0; }
+    .contact-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--shadow);
+    }
+    .contact-info-item {
+      display: flex;
+      gap: 1.2rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--light-gray);
+      align-items: flex-start;
+    }
+    .contact-info-item:last-child { border-bottom: none; }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: rgba(201,123,90,0.12);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rose);
+      flex-shrink: 0;
+    }
+    .contact-detail h6 { font-family: var(--font-body); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-gray); margin-bottom: 0.25rem; }
+    .contact-detail p { font-family: var(--font-display); font-size: 1.05rem; color: var(--charcoal); margin: 0; }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: var(--dark);
+      color: var(--white);
+      padding: 4rem 0 2rem;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .footer-brand span { color: var(--blush); }
+    .footer-desc { font-size: 0.9rem; color: rgba(255,255,255,0.55); max-width: 260px; }
+    .footer-heading { font-family: var(--font-body); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blush); margin-bottom: 1.2rem; }
+    .footer-link { display: block; color: rgba(255,255,255,0.6); font-size: 0.9rem; padding: 0.3rem 0; transition: var(--transition); }
+    .footer-link:hover { color: var(--blush); padding-left: 4px; }
+    .footer-divider { border-color: rgba(255,255,255,0.1); margin: 2rem 0 1.5rem; }
+    .footer-bottom { font-size: 0.82rem; color: rgba(255,255,255,0.4); }
+    .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+    .social-link {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .social-link:hover { background: var(--rose); color: var(--white); transform: translateY(-3px); }
+
+    /* ===================== MODAL ===================== */
+    .article-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28,20,16,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .article-modal-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .article-modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 2.5rem;
+      position: relative;
+      animation: scaleIn 0.3s ease;
+    }
+    @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      width: 36px; height: 36px;
+      background: var(--light-gray);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--charcoal);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--rose); color: var(--white); }
+
+    /* ===================== TOAST ===================== */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 9999;
+    }
+    .custom-toast {
+      background: var(--charcoal);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.5rem;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: toastIn 0.4s ease;
+      margin-top: 0.5rem;
+    }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+    .toast-icon { color: var(--sage); }
+
+    /* ===================== SCROLL TO TOP ===================== */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem; left: 2rem;
+      width: 44px; height: 44px;
+      background: var(--rose);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: var(--transition);
+      border: none;
+      box-shadow: var(--shadow);
+      z-index: 999;
+    }
+    .scroll-top.show { opacity: 1; transform: none; }
+    .scroll-top:hover { background: var(--deep-rose); transform: translateY(-3px); }
+
+    /* ===================== MEDIA QUERIES ===================== */
+    @media (max-width: 992px) {
+      .booking-sidebar { margin-top: 2rem; }
+    }
+    @media (max-width: 768px) {
+      #home { padding-top: 70px; }
+      .hero-title { font-size: 2.4rem; }
+      .section-title { font-size: 2rem; }
+      .appointment-card { padding: 1.8rem; }
+      .contact-card { padding: 1.8rem; }
+      .hero-visual { margin-top: 3rem; }
+      .hero-blob { display: none; }
+    }
+    @media (max-width: 576px) {
+      .hero-actions { flex-direction: column; }
+      .btn-primary-custom, .btn-outline-custom { text-align: center; }
+      .skin-cards-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===================== HIGHLIGHTS STRIP ===================== */
+    .highlight-strip {
+      background: var(--charcoal);
+      padding: 2rem 0;
+      overflow: hidden;
+    }
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 2.5rem;
+      border-right: 1px solid rgba(255,255,255,0.12);
+      white-space: nowrap;
+    }
+    .highlight-item:last-child { border-right: none; }
+    .highlight-item i { color: var(--blush); font-size: 1.2rem; }
+    .highlight-item span { color: rgba(255,255,255,0.85); font-size: 0.88rem; font-weight: 500; }
+
+    /* Intro section */
+    #intro { padding: 5rem 0; }
+    .intro-feature {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .intro-feature-icon {
+      width: 40px; height: 40px;
+      flex-shrink: 0;
+      background: rgba(201,123,90,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rose);
+    }
+    .intro-feature h6 { font-family: var(--font-body); font-weight: 600; margin-bottom: 0.2rem; }
+    .intro-feature p { font-size: 0.88rem; color: var(--warm-gray); margin: 0; }
+    .intro-visual {
+      background: linear-gradient(135deg, var(--blush) 0%, rgba(201,123,90,0.3) 100%);
+      border-radius: var(--radius-lg);
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .intro-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c97b5a' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* ===================== PAGE LOADER ===================== */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      transition: opacity 0.5s ease;
+    }
+    .page-loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-brand { font-family: var(--font-display); font-size: 2rem; color: var(--charcoal); }
+    .loader-brand span { color: var(--rose); }
+    .loader-bar {
+      width: 120px; height: 2px;
+      background: var(--blush);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .loader-progress {
+      height: 100%;
+      background: var(--rose);
+      border-radius: 100px;
+      animation: loadProgress 1.2s ease forwards;
+    }
+    @keyframes loadProgress { from { width: 0; } to { width: 100%; } }
+  </style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-brand">Skin<span>Consult</span> Pro</div>
+  <div class="loader-bar"><div class="loader-progress"></div></div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTop" onclick="scrollToTop()" aria-label="Scroll to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar-custom" id="navbar">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#home" class="navbar-brand-custom">Skin<span>Consult</span> Pro</a>
+      <!-- Desktop Nav -->
+      <div class="d-none d-lg-flex align-items-center gap-1">
+        <a href="#home" class="nav-link-custom active">Home</a>
+        <a href="#skin-type" class="nav-link-custom">Skin Type</a>
+        <a href="#services" class="nav-link-custom">Services</a>
+        <a href="#articles" class="nav-link-custom">Articles</a>
+        <a href="#products" class="nav-link-custom">Products</a>
+        <a href="#faq" class="nav-link-custom">FAQ</a>
+        <a href="#contact" class="nav-link-custom">Contact</a>
+        <a href="#appointment" class="btn-primary-custom ms-3" style="font-size:0.78rem;padding:0.65rem 1.5rem;">Book Appointment</a>
+      </div>
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler-custom d-lg-none" id="mobileToggle" aria-label="Menu">
+        <span class="toggler-bar" id="bar1"></span>
+        <span class="toggler-bar" id="bar2"></span>
+        <span class="toggler-bar" id="bar3"></span>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div class="d-lg-none" id="mobileMenu" style="display:none!important;padding:1rem 0;">
+      <a href="#home" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">Home</a>
+      <a href="#skin-type" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">Skin Type</a>
+      <a href="#services" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">Services</a>
+      <a href="#articles" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">Articles</a>
+      <a href="#products" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">Products</a>
+      <a href="#faq" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">FAQ</a>
+      <a href="#contact" class="nav-link-custom d-block py-2" onclick="closeMobileMenu()">Contact</a>
+      <a href="#appointment" class="btn-primary-custom d-block text-center mt-2" onclick="closeMobileMenu()">Book Appointment</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="home">
+  <div class="hero-blob"></div>
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="fade-in">
+          <div class="hero-badge">
+            <i class="fas fa-leaf"></i> Dermatologist-Approved Advice
+          </div>
+          <h1 class="hero-title">
+            Your skin<br>deserves <em>expert</em><br>care
+          </h1>
+          <p class="hero-desc">Discover personalized skincare routines, expert guidance, and science-backed recommendations tailored to your unique skin type.</p>
+          <div class="hero-actions">
+            <a href="#skin-type" class="btn-primary-custom">Analyze My Skin</a>
+            <a href="#articles" class="btn-outline-custom">Read Articles</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual fade-in" style="transition-delay:0.2s">
+          <div class="hero-card">
+            <div class="row g-2 mb-3">
+              <div class="col-4">
+                <div class="hero-stat">
+                  <div class="num">15K+</div>
+                  <div class="lbl">Happy Clients</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="hero-stat">
+                  <div class="num">98%</div>
+                  <div class="lbl">Satisfaction</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="hero-stat">
+                  <div class="num">50+</div>
+                  <div class="lbl">Specialists</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 rounded-3" style="background:var(--light-gray)">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blush),var(--rose));display:flex;align-items:center;justify-content:center;color:white;font-size:1.1rem">🌿</div>
+                <div>
+                  <div style="font-weight:600;font-size:0.9rem">Daily Skin Check</div>
+                  <div style="font-size:0.78rem;color:var(--warm-gray)">Complete your analysis</div>
+                </div>
+              </div>
+              <div style="height:6px;background:var(--white);border-radius:100px;overflow:hidden">
+                <div style="height:100%;width:72%;background:linear-gradient(90deg,var(--rose),var(--blush));border-radius:100px;animation:loadProgress 2s ease forwards"></div>
+              </div>
+              <div style="font-size:0.78rem;color:var(--warm-gray);margin-top:0.4rem">72% — Select your skin type to complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHT STRIP -->
+<div class="highlight-strip">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-center">
+      <div class="highlight-item"><i class="fas fa-certificate"></i><span>Board-Certified Dermatologists</span></div>
+      <div class="highlight-item"><i class="fas fa-flask"></i><span>Science-Backed Formulas</span></div>
+      <div class="highlight-item"><i class="fas fa-leaf"></i><span>Clean & Cruelty-Free</span></div>
+      <div class="highlight-item"><i class="fas fa-star"></i><span>4.9/5 Avg. Rating</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== INTRO ==================== -->
+<section id="intro">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 fade-in">
+        <div class="intro-visual">🌸</div>
+      </div>
+      <div class="col-lg-6 fade-in" style="transition-delay:0.15s">
+        <div class="section-label">About SkinConsult Pro</div>
+        <h2 class="section-title">Personalized skincare, reimagined</h2>
+        <div class="divider"></div>
+        <p class="section-sub mb-4">We combine clinical expertise with cutting-edge skin analysis technology to deliver tailored advice that actually works for your unique skin.</p>
+        <div class="intro-feature">
+          <div class="intro-feature-icon"><i class="fas fa-microscope"></i></div>
+          <div>
+            <h6>Clinical Skin Analysis</h6>
+            <p>Advanced assessment tools used by dermatologists worldwide to identify your skin's exact needs.</p>
+          </div>
+        </div>
+        <div class="intro-feature">
+          <div class="intro-feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <div>
+            <h6>Dermatologist-Approved</h6>
+            <p>Every recommendation is reviewed and approved by our board of certified skin specialists.</p>
+          </div>
+        </div>
+        <div class="intro-feature">
+          <div class="intro-feature-icon"><i class="fas fa-sync-alt"></i></div>
+          <div>
+            <h6>Routine That Evolves</h6>
+            <p>Your skincare plan adapts to seasonal changes, hormonal shifts, and lifestyle factors.</p>
+          </div>
+        </div>
+        <a href="#appointment" class="btn-primary-custom mt-2">Book a Consultation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SKIN TYPE ==================== -->
+<section id="skin-type">
+  <div class="container">
+    <div class="text-center mb-1 fade-in">
+      <div class="section-label">Know Your Skin</div>
+      <h2 class="section-title">Select your skin type</h2>
+      <p class="section-sub mx-auto">Understanding your skin type is the first step to an effective routine. Click your type to reveal personalized insights.</p>
+    </div>
+    <div class="skin-cards-grid fade-in">
+      <div class="skin-card" onclick="selectSkinType('oily')" data-type="oily">
+        <div class="skin-card-icon" style="background:rgba(255,200,100,0.15)">💧</div>
+        <h4>Oily</h4>
+        <p>Excess sebum, shine, enlarged pores</p>
+      </div>
+      <div class="skin-card" onclick="selectSkinType('dry')" data-type="dry">
+        <div class="skin-card-icon" style="background:rgba(200,160,120,0.15)">🌵</div>
+        <h4>Dry</h4>
+        <p>Flakiness, tightness, dull complexion</p>
+      </div>
+      <div class="skin-card" onclick="selectSkinType('combination')" data-type="combination">
+        <div class="skin-card-icon" style="background:rgba(143,166,140,0.15)">⚖️</div>
+        <h4>Combination</h4>
+        <p>Oily T-zone with dry or normal cheeks</p>
+      </div>
+      <div class="skin-card" onclick="selectSkinType('sensitive')" data-type="sensitive">
+        <div class="skin-card-icon" style="background:rgba(220,150,150,0.15)">🌹</div>
+        <h4>Sensitive</h4>
+        <p>Redness, reactive, easily irritated</p>
+      </div>
+      <div class="skin-card" onclick="selectSkinType('normal')" data-type="normal">
+        <div class="skin-card-icon" style="background:rgba(100,180,200,0.15)">✨</div>
+        <h4>Normal</h4>
+        <p>Balanced, minimal concerns, smooth texture</p>
+      </div>
+    </div>
+    <!-- Info Panel -->
+    <div class="skin-info-panel fade-in" id="skinInfoPanel">
+      <div class="row g-4">
+        <div class="col-md-8">
+          <h3 id="skinTypeTitle" style="font-size:1.8rem;margin-bottom:0.5rem"></h3>
+          <p id="skinTypeDesc" style="color:var(--warm-gray);font-size:0.95rem;margin-bottom:1.5rem"></p>
+          <div class="info-tabs" id="infoTabs">
+            <button class="info-tab active" onclick="showTab('tips',this)">Tips</button>
+            <button class="info-tab" onclick="showTab('causes',this)">Causes</button>
+            <button class="info-tab" onclick="showTab('routine',this)">Routine</button>
+          </div>
+          <div id="tipsContent" class="info-content show"></div>
+          <div id="causesContent" class="info-content"></div>
+          <div id="routineContent" class="info-content"></div>
+        </div>
+        <div class="col-md-4">
+          <div style="background:var(--light-gray);border-radius:var(--radius-lg);padding:1.5rem">
+            <div style="font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:1rem">Skin Profile</div>
+            <div id="skinProfile"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SERVICES ==================== -->
+<section id="services">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Expert skincare services</h2>
+      <p class="section-sub mx-auto">From analysis to treatment, we offer a comprehensive suite of skincare solutions.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 fade-in">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-search"></i></div>
+          <h4>Skin Analysis</h4>
+          <p>In-depth assessment of your skin type, concerns, and underlying conditions using advanced diagnostic tools.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in" style="transition-delay:0.1s">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-clipboard-list"></i></div>
+          <h4>Custom Routines</h4>
+          <p>Personalized morning and evening skincare routines designed specifically for your skin's unique needs.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in" style="transition-delay:0.2s">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-pump-soap"></i></div>
+          <h4>Product Matching</h4>
+          <p>Expert curation of skincare products that work synergistically with your skin type and concerns.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in" style="transition-delay:0.3s">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-user-md"></i></div>
+          <h4>Derma Consultation</h4>
+          <p>One-on-one virtual consultations with board-certified dermatologists and licensed estheticians.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in" style="transition-delay:0.4s">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+          <h4>Progress Tracking</h4>
+          <p>Monitor your skin transformation journey with regular check-ins and photographic documentation.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in" style="transition-delay:0.5s">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
+          <h4>Skin Education</h4>
+          <p>Access our library of educational content, workshops, and webinars led by skincare experts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ARTICLES ==================== -->
+<section id="articles">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-5 fade-in flex-wrap gap-3">
+      <div>
+        <div class="section-label">Knowledge Base</div>
+        <h2 class="section-title" style="margin-bottom:0">Skincare articles</h2>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="filter-btn active" onclick="filterArticles('all',this)">All</button>
+        <button class="filter-btn" onclick="filterArticles('routine',this)">Routine</button>
+        <button class="filter-btn" onclick="filterArticles('ingredients',this)">Ingredients</button>
+        <button class="filter-btn" onclick="filterArticles('lifestyle',this)">Lifestyle</button>
+      </div>
+    </div>
+    <div class="row g-4" id="articlesGrid"></div>
+  </div>
+</section>
+
+<!-- ==================== PRODUCTS ==================== -->
+<section id="products">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="section-label">Curated For You</div>
+      <h2 class="section-title">Product recommendations</h2>
+      <p class="section-sub mx-auto">Filter by skin type to discover products our dermatologists love.</p>
+    </div>
+    <div class="product-filter-bar justify-content-center fade-in">
+      <button class="filter-btn active" onclick="filterProducts('all',this)">All Types</button>
+      <button class="filter-btn" onclick="filterProducts('oily',this)">Oily</button>
+      <button class="filter-btn" onclick="filterProducts('dry',this)">Dry</button>
+      <button class="filter-btn" onclick="filterProducts('combination',this)">Combination</button>
+      <button class="filter-btn" onclick="filterProducts('sensitive',this)">Sensitive</button>
+    </div>
+    <div class="row g-4" id="productsGrid"></div>
+  </div>
+</section>
+
+<!-- ==================== APPOINTMENT ==================== -->
+<section id="appointment">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="booking-sidebar fade-in">
+          <div class="section-label" style="color:var(--blush)">Get Started</div>
+          <h3>Book your skin consultation</h3>
+          <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;margin-bottom:2rem">Reserve your spot with a certified dermatologist today. First consultation is complimentary.</p>
+          <div class="benefit-item"><i class="fas fa-check-circle"></i><span>Free first consultation</span></div>
+          <div class="benefit-item"><i class="fas fa-clock"></i><span>Appointments in 24–48 hrs</span></div>
+          <div class="benefit-item"><i class="fas fa-video"></i><span>Virtual & in-person options</span></div>
+          <div class="benefit-item"><i class="fas fa-shield-alt"></i><span>Privacy guaranteed</span></div>
+          <div class="benefit-item"><i class="fas fa-file-alt"></i><span>Detailed skin report included</span></div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="appointment-card fade-in">
+          <div class="section-label">Appointment Form</div>
+          <h2 class="section-title" style="font-size:2rem;margin-bottom:0.5rem">Reserve your spot</h2>
+          <p style="color:var(--warm-gray);margin-bottom:2rem;font-size:0.9rem">All fields marked with * are required</p>
+          <div id="formSuccess" class="form-success">
+            <i class="fas fa-check-circle" style="font-size:2rem;color:var(--sage);margin-bottom:0.75rem;display:block"></i>
+            <h5 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:0.5rem">Appointment Booked!</h5>
+            <p style="color:var(--warm-gray);margin:0">We've saved your details and will contact you within 24 hours to confirm your appointment.</p>
+          </div>
+          <form id="appointmentForm" novalidate>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label-custom">Full Name *</label>
+                <input type="text" id="apptName" class="form-control-custom" placeholder="Jane Smith">
+                <div class="form-error" id="nameError">Please enter your full name.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">Email Address *</label>
+                <input type="email" id="apptEmail" class="form-control-custom" placeholder="jane@example.com">
+                <div class="form-error" id="emailError">Please enter a valid email address.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">Phone Number</label>
+                <input type="tel" id="apptPhone" class="form-control-custom" placeholder="+1 (555) 000-0000">
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">Preferred Date *</label>
+                <input type="date" id="apptDate" class="form-control-custom">
+                <div class="form-error" id="dateError">Please select a future date.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">Skin Type</label>
+                <select id="apptSkinType" class="form-control-custom">
+                  <option value="">Select skin type</option>
+                  <option>Oily</option><option>Dry</option>
+                  <option>Combination</option><option>Sensitive</option><option>Normal</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">Consultation Type</label>
+                <select id="apptType" class="form-control-custom">
+                  <option>Virtual Consultation</option>
+                  <option>In-Person Visit</option>
+                  <option>Follow-up Session</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Primary Skin Concern *</label>
+                <select id="apptConcern" class="form-control-custom">
+                  <option value="">Select your main concern</option>
+                  <option>Acne & Breakouts</option><option>Anti-Aging & Wrinkles</option>
+                  <option>Hyperpigmentation</option><option>Dryness & Dehydration</option>
+                  <option>Sensitivity & Redness</option><option>Enlarged Pores</option>
+                  <option>Dull & Uneven Skin Tone</option><option>Other</option>
+                </select>
+                <div class="form-error" id="concernError">Please select your primary skin concern.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Additional Notes</label>
+                <textarea id="apptNotes" class="form-control-custom" rows="3" placeholder="Tell us more about your skin history, current products, or specific questions..."></textarea>
+              </div>
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn-primary-custom w-100" style="padding:1rem">
+                  <i class="fas fa-calendar-check me-2"></i>Book My Appointment
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section id="faq">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4 fade-in">
+        <div class="section-label">Common Questions</div>
+        <h2 class="section-title">Frequently asked questions</h2>
+        <div class="divider"></div>
+        <p style="color:var(--warm-gray);font-size:0.95rem">Can't find your answer? <a href="#contact" style="color:var(--rose)">Contact our team</a> — we're happy to help.</p>
+      </div>
+      <div class="col-lg-8 fade-in" style="transition-delay:0.15s">
+        <div id="faqContainer"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Contact us</h2>
+      <p class="section-sub mx-auto">Have questions? Our skincare specialists are ready to help you on your journey.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-5 fade-in">
+        <div class="contact-card h-100">
+          <h4 style="font-size:1.5rem;margin-bottom:0.5rem">Reach out directly</h4>
+          <p style="color:var(--warm-gray);font-size:0.9rem;margin-bottom:1.5rem">We typically respond within 2–4 business hours.</p>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="contact-detail">
+              <h6>Address</h6>
+              <p>Vehari,punjab Pakistan</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-detail">
+              <h6>Phone</h6>
+              <p>+92300030001</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-detail">
+              <h6>Email</h6>
+              <p>hello@skinconsultpro.com</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+            <div class="contact-detail">
+              <h6>Hours</h6>
+              <p>Mon–Sat: 9AM – 7PM EST</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 fade-in" style="transition-delay:0.15s">
+        <div class="contact-card">
+          <h4 style="font-size:1.5rem;margin-bottom:1.5rem">Send a message</h4>
+          <div id="contactSuccess" class="form-success">
+            <i class="fas fa-paper-plane" style="font-size:2rem;color:var(--sage);margin-bottom:0.75rem;display:block"></i>
+            <h5 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:0.5rem">Message Sent!</h5>
+            <p style="color:var(--warm-gray);margin:0">Thank you for reaching out. We'll get back to you shortly.</p>
+          </div>
+          <form id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label-custom">Your Name *</label>
+                <input type="text" id="ctName" class="form-control-custom" placeholder="Jane Smith">
+                <div class="form-error" id="ctNameError">Name is required.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom">Email Address *</label>
+                <input type="email" id="ctEmail" class="form-control-custom" placeholder="jane@example.com">
+                <div class="form-error" id="ctEmailError">Valid email is required.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Subject *</label>
+                <input type="text" id="ctSubject" class="form-control-custom" placeholder="e.g. Skincare routine question">
+                <div class="form-error" id="ctSubjectError">Subject is required.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Message *</label>
+                <textarea id="ctMessage" class="form-control-custom" rows="4" placeholder="Write your message here..."></textarea>
+                <div class="form-error" id="ctMsgError">Please enter your message.</div>
+              </div>
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn-primary-custom w-100" style="padding:1rem">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE MODAL -->
+<div class="article-modal-overlay" id="articleModal">
+  <div class="article-modal">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand">Skin<span>Consult</span> Pro</div>
+        <p class="footer-desc">Your trusted partner in achieving healthy, radiant skin through science-backed personalized care.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Navigation</div>
+        <a href="#home" class="footer-link">Home</a>
+        <a href="#skin-type" class="footer-link">Skin Analysis</a>
+        <a href="#services" class="footer-link">Services</a>
+        <a href="#articles" class="footer-link">Articles</a>
+        <a href="#faq" class="footer-link">FAQ</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Services</div>
+        <a href="#" class="footer-link">Consultation</a>
+        <a href="#" class="footer-link">Skin Assessment</a>
+        <a href="#" class="footer-link">Product Advice</a>
+        <a href="#" class="footer-link">Routine Builder</a>
+        <a href="#" class="footer-link">Progress Tracking</a>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Stay in the loop</div>
+        <p style="color:rgba(255,255,255,0.55);font-size:0.88rem;margin-bottom:1rem">Get weekly skincare tips, articles, and exclusive offers straight to your inbox.</p>
+        <div style="display:flex;gap:0.5rem">
+          <input type="email" id="newsletterEmail" style="flex:1;padding:0.75rem 1rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius);color:white;font-family:var(--font-body);font-size:0.88rem;outline:none" placeholder="Your email address">
+          <button onclick="subscribeNewsletter()" style="padding:0.75rem 1.2rem;background:var(--rose);border:none;border-radius:var(--radius);color:white;cursor:pointer;transition:var(--transition)" onmouseover="this.style.background='var(--deep-rose)'" onmouseout="this.style.background='var(--rose)'">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <p class="footer-bottom mb-0">© 2025 SkinConsult Pro. All rights reserved.</p>
+      <div class="d-flex gap-3">
+        <a href="#" style="font-size:0.8rem;color:rgba(255,255,255,0.4)">Privacy Policy</a>
+        <a href="#" style="font-size:0.8rem;color:rgba(255,255,255,0.4)">Terms of Service</a>
+        <a href="#" style="font-size:0.8rem;color:rgba(255,255,255,0.4)">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ===================== DATA =====================
+
+  const skinData = {
+    oily: {
+      title: 'Oily Skin',
+      emoji: '💧',
+      desc: 'Oily skin produces excess sebum, giving it a shiny appearance. While it tends to age more slowly, it\'s prone to breakouts and enlarged pores.',
+      tips: ['Use a gentle, foaming cleanser twice daily','Apply lightweight, oil-free moisturizers','Use non-comedogenic SPF every morning','Incorporate niacinamide to control sebum','Use clay masks 1–2x per week','Avoid heavy, occlusive products'],
+      causes: ['Overactive sebaceous glands','Hormonal fluctuations (androgens)','Genetics and hereditary factors','Hot and humid climate conditions','Over-cleansing which triggers rebound oil production','Stress and cortisol elevation'],
+      routine: ['AM: Gel cleanser → Toner (witch hazel) → Niacinamide serum → Oil-free moisturizer → SPF 50','PM: Gel cleanser → BHA exfoliant (2–3x/week) → Retinol serum → Lightweight gel moisturizer'],
+      profile: [{label:'Oil Production',val:92},{label:'Hydration',val:45},{label:'Sensitivity',val:30},{label:'Aging Risk',val:25}]
+    },
+    dry: {
+      title: 'Dry Skin',
+      emoji: '🌵',
+      desc: 'Dry skin produces insufficient sebum, resulting in tightness, flaking, and a rough texture. It requires rich hydration and barrier-strengthening ingredients.',
+      tips: ['Cleanse with creamy, hydrating formulas','Apply moisturizer within 60 seconds of cleansing','Use hyaluronic acid serum on damp skin','Incorporate facial oils to seal in moisture','Avoid hot showers and harsh exfoliants','Sleep with a humidifier in dry climates'],
+      causes: ['Insufficient sebum production','Environmental factors (cold, wind, low humidity)','Aging and hormonal changes','Over-washing or harsh cleansers','Certain medications (diuretics, retinoids)','Dehydration and poor diet'],
+      routine: ['AM: Cream cleanser → Hyaluronic acid serum → Rich moisturizer → Facial oil (optional) → SPF 30','PM: Oil cleanser → Hydrating serum → Rich night cream → Occlusive balm on very dry areas'],
+      profile: [{label:'Oil Production',val:20},{label:'Hydration',val:35},{label:'Sensitivity',val:55},{label:'Aging Risk',val:70}]
+    },
+    combination: {
+      title: 'Combination Skin',
+      emoji: '⚖️',
+      desc: 'Combination skin features an oily T-zone (forehead, nose, chin) with normal to dry cheeks. It requires a balanced, zone-specific approach.',
+      tips: ['Use a gentle, pH-balanced cleanser','Moisturize cheeks more than the T-zone','Apply targeted treatments by zone','Use a light SPF that won\'t clog pores','Try multi-masking for different zones','Balance with hydrating yet non-comedogenic products'],
+      causes: ['Uneven distribution of sebaceous glands','Genetics and hereditary factors','Seasonal and hormonal changes','Incorrect skincare product usage','Stress affecting oil production','Diet and lifestyle factors'],
+      routine: ['AM: Gentle gel cleanser → Balancing toner → Zone-specific moisturizer → SPF 30','PM: Double cleanse → BHA on T-zone → Hyaluronic acid → Lighter gel on T-zone, richer cream on cheeks'],
+      profile: [{label:'Oil Production (T-Zone)',val:75},{label:'Oil Production (Cheeks)',val:30},{label:'Hydration',val:50},{label:'Sensitivity',val:40}]
+    },
+    sensitive: {
+      title: 'Sensitive Skin',
+      emoji: '🌹',
+      desc: 'Sensitive skin reacts easily to products and environmental triggers, causing redness, stinging, or breakouts. It requires gentle, fragrance-free formulations.',
+      tips: ['Always patch test new products','Choose fragrance-free, minimal ingredient formulas','Use lukewarm water — never hot','Introduce one new product at a time','Look for calming ingredients: centella, aloe, oat','Avoid physical scrubs; use gentle enzyme exfoliants'],
+      causes: ['Compromised skin barrier (thin stratum corneum)','Genetic predisposition (rosacea, eczema)','Environmental triggers and pollution','Allergies and immune system hypersensitivity','Hormonal fluctuations','Harsh skincare products or over-exfoliation'],
+      routine: ['AM: Micellar water or gentle gel cleanser → Centella serum → Barrier-repair cream → Mineral SPF 50','PM: Oil cleanse → Gentle second cleanse → Ceramide serum → Soothing night cream'],
+      profile: [{label:'Oil Production',val:35},{label:'Hydration',val:40},{label:'Sensitivity',val:95},{label:'Reactivity',val:90}]
+    },
+    normal: {
+      title: 'Normal Skin',
+      emoji: '✨',
+      desc: 'Normal skin is well-balanced with minimal concerns — not too oily or dry. The goal is maintenance and prevention to keep it glowing for years to come.',
+      tips: ['Maintain consistent morning and evening routines','Focus on antioxidants and sun protection','Incorporate preventative anti-aging ingredients','Stay hydrated and eat a balanced diet','Exfoliate 2–3x per week for radiance','Enjoy experimenting with new skincare innovations'],
+      causes: ['Naturally balanced sebum production','Healthy skin barrier function','Good genetics and lifestyle habits','Consistent skincare routine maintenance','Adequate hydration and nutrition','Limited environmental stressors'],
+      routine: ['AM: Gentle cleanser → Vitamin C serum → Lightweight moisturizer → SPF 50','PM: Cleanser → Retinol (3–4x/week) → AHA exfoliant (2x/week) → Nourishing night cream'],
+      profile: [{label:'Oil Production',val:50},{label:'Hydration',val:70},{label:'Sensitivity',val:20},{label:'Aging Risk',val:35}]
+    }
+  };
+
+  const articles = [
+    { id:1, title:'The Ultimate Guide to Double Cleansing', tag:'Routine', category:'routine', date:'Mar 15, 2025', img:'🧴', desc:'Discover why double cleansing is the cornerstone of Korean skincare and how it can transform your skin\'s clarity overnight.', content:'Double cleansing is a two-step process that first uses an oil-based cleanser to dissolve makeup and sunscreen, followed by a water-based cleanser to remove sweat, dirt, and impurities. This method ensures your skin is thoroughly clean without stripping its natural barrier. Start with a cleansing balm or micellar oil massaged onto dry skin, then rinse and follow with your regular gentle cleanser on damp skin.' },
+    { id:2, title:'Retinol: The Science Behind the Glow', tag:'Ingredients', category:'ingredients', date:'Mar 8, 2025', img:'🔬', desc:'Retinol is hailed as the gold standard in anti-aging. Here\'s exactly how it works, who should use it, and how to avoid the dreaded "retinol purge."', content:'Retinol, a derivative of Vitamin A, works by increasing cell turnover and stimulating collagen production. Begin with a low concentration (0.025%) and apply only at night, every other day. Always use SPF the following morning as retinol increases sun sensitivity. Expect mild purging for 4–6 weeks as your skin adapts. The long-term results — smoother texture, reduced fine lines, and even skin tone — are well worth the patience.' },
+    { id:3, title:'SPF Every Day: Why It\'s Non-Negotiable', tag:'Routine', category:'routine', date:'Feb 28, 2025', img:'☀️', desc:'UV damage is responsible for up to 90% of visible skin aging. We break down everything you need to know about choosing and applying sunscreen correctly.', content:'Broad-spectrum SPF 30+ protects against both UVA (aging) and UVB (burning) rays. Apply generously — most people use only 25–50% of the recommended amount. Reapply every 2 hours when outdoors. Mineral sunscreens (zinc oxide, titanium dioxide) sit on top of the skin and are great for sensitive types. Chemical sunscreens absorb UV rays and work better under makeup. Year-round daily use is essential, even on cloudy days when up to 80% of UV rays penetrate cloud cover.' },
+    { id:4, title:'The Gut-Skin Connection Explained', tag:'Lifestyle', category:'lifestyle', date:'Feb 20, 2025', img:'🌿', desc:'Your gut microbiome has a profound impact on your skin\'s health. Learn how dietary choices directly influence acne, rosacea, and overall skin radiance.', content:'The gut-skin axis is a bidirectional communication pathway. An imbalanced gut microbiome (dysbiosis) can increase systemic inflammation, which manifests as acne, eczema, and rosacea on the skin. Incorporate probiotic-rich foods (yogurt, kefir, sauerkraut), prebiotic fibers (oats, bananas, asparagus), and anti-inflammatory omega-3 fatty acids. Reduce sugar and processed foods which feed harmful bacteria. Staying hydrated and managing stress also significantly impacts this axis.' },
+    { id:5, title:'Niacinamide: The Multi-Tasking Hero', tag:'Ingredients', category:'ingredients', date:'Feb 12, 2025', img:'💊', desc:'From pore minimizing to brightening and barrier repair, niacinamide does it all. Here\'s how to incorporate it into any skincare routine.', content:'Niacinamide (Vitamin B3) is one of the most versatile and well-tolerated skincare ingredients. At 2–5%, it regulates sebum and minimizes pore appearance. At 5–10%, it fades hyperpigmentation and evens skin tone. It also strengthens the skin barrier by boosting ceramide production and has anti-inflammatory properties that calm redness. It pairs well with most ingredients and can be layered under moisturizer or mixed into serums. Start with 5% for most benefits.' },
+    { id:6, title:'Stress and Your Skin: Breaking the Cycle', tag:'Lifestyle', category:'lifestyle', date:'Feb 5, 2025', img:'🧘', desc:'Chronic stress triggers a cascade of hormonal responses that directly worsen acne, eczema, and psoriasis. Here\'s how to break the stress-skin cycle.', content:'When stressed, your body releases cortisol, which increases oil production and inflammation. This triggers acne breakouts and worsens conditions like eczema and psoriasis. Chronically elevated cortisol also breaks down collagen. Combat this with consistent sleep (7–9 hours), meditation or mindfulness, regular exercise, and stress-reducing adaptogens like ashwagandha. Your skincare routine itself can be a powerful mindfulness ritual — take time to massage products in with intention.' },
+  ];
+
+  const products = [
+    { name:'Hydra-Clear Foam Wash', type:'Cleanser', price:'$28', desc:'Oil-free foaming formula that purifies without stripping', emoji:'🧴', tags:['oily','combination'], skinFor:'Oily & Combination' },
+    { name:'Ceramide Repair Cream', type:'Moisturizer', price:'$45', desc:'Rich barrier-restoring formula with 3 essential ceramides', emoji:'🧼', tags:['dry','sensitive'], skinFor:'Dry & Sensitive' },
+    { name:'Niacinamide 10% Serum', type:'Serum', price:'$32', desc:'Pore-minimizing, brightening vitamin B3 concentrate', emoji:'💧', tags:['oily','combination','normal'], skinFor:'All Types' },
+    { name:'Mineral Shield SPF 50', type:'Sunscreen', price:'$38', desc:'Weightless zinc-oxide sunscreen, no white cast', emoji:'☀️', tags:['sensitive','all'], skinFor:'Sensitive & All' },
+    { name:'Centella Calm Essence', type:'Toner', price:'$35', desc:'Soothing cica essence to reduce redness and inflammation', emoji:'🌿', tags:['sensitive','combination'], skinFor:'Sensitive' },
+    { name:'Retinol 0.3% Night Serum', type:'Treatment', price:'$52', desc:'Encapsulated retinol for gentle, effective cell renewal', emoji:'🔬', tags:['normal','dry','combination'], skinFor:'Normal & Dry' },
+    { name:'Clay Detox Mask', type:'Mask', price:'$29', desc:'Kaolin clay mask that absorbs excess oil and unclogs pores', emoji:'🎭', tags:['oily','combination'], skinFor:'Oily' },    { name:'Hyaluronic Acid Boost', type:'Serum', price:'$40', desc:'Multi-weight HA serum for deep, plumping hydration', emoji:'💎', tags:['dry','normal','sensitive'], skinFor:'Dry & Normal' },
+  ];
+
+  const faqs = [
+    { q:'How do I determine my skin type?', a:'The simplest method is the "bare-face test." Cleanse your face with a gentle cleanser and wait 30–60 minutes without applying anything. If your skin feels tight and looks dull, you have dry skin. If it\'s shiny all over, you have oily skin. A combination of oily T-zone and normal or dry cheeks indicates combination skin. If it feels comfortable and balanced, you have normal skin. If it reacts easily to products or shows redness, you have sensitive skin.' },
+    { q:'How long does it take to see results from a new skincare routine?', a:'Patience is key in skincare. Moisturizers and cleansers typically show results within a week. Serums targeting hyperpigmentation or acne can take 4–8 weeks. Retinol requires 3–6 months of consistent use to show significant anti-aging benefits. Cell turnover takes about 28 days (longer as we age), so always give a product at least one full cycle before judging its effectiveness.' },
+    { q:'Can I use multiple active ingredients at once?', a:'Yes, but with caution. Some actives work well together — hyaluronic acid can be layered with most ingredients, and niacinamide pairs with nearly everything. However, certain combinations can cause irritation: vitamin C + AHA/BHA can be too acidic together; retinol + AHA/BHA can cause over-exfoliation. A good rule: use vitamin C in the morning and retinol at night, and start each new active slowly to monitor your skin\'s response.' },
+    { q:'Is sunscreen really necessary every day?', a:'Absolutely — UV exposure is the single biggest contributor to premature aging, responsible for up to 90% of visible skin aging. UVA rays penetrate windows and cloud cover year-round, causing collagen breakdown and hyperpigmentation even when you\'re indoors. SPF 30 is the minimum; SPF 50 is ideal. Apply generously (about ¼ teaspoon for face and neck) as the last step in your morning routine and reapply every 2 hours with sun exposure.' },
+    { q:'What should I do if a product causes irritation?', a:'First, stop using the product immediately. If irritation is mild (slight redness or dryness), simplify your routine to just a gentle cleanser and barrier-repair moisturizer for 1–2 weeks to let your skin recover. If irritation is severe (burning, swelling, hives), wash the product off immediately and consider seeing a dermatologist. Once recovered, you can reintroduce products one at a time with a patch test: apply a small amount on your inner arm for 24–48 hours before using on your face.' },
+    { q:'Do I need a different routine for summer and winter?', a:'Yes, seasonal adjustments are important. In summer, switch to lighter moisturizers, increase SPF diligence, and consider adding antioxidant serums to combat UV and pollution damage. In winter, upgrade to richer moisturizers, use gentle rather than exfoliating cleansers, and add occlusives to lock in moisture. The humidity difference between seasons significantly affects how your skin behaves, so listen to what your skin tells you and adjust accordingly.' },
+  ];
+
+  // ===================== INIT =====================
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('pageLoader').classList.add('hidden');
+    }, 1400);
+    renderArticles(articles);
+    renderProducts(products);
+    renderFAQ();
+    initScrollAnimations();
+    initNavScroll();
+    setMinDate();
+  });
+
+  // ===================== NAVBAR =====================
+  let mobileOpen = false;
+  function initNavScroll() {
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 60) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+      const scrollBtn = document.getElementById('scrollTop');
+      if (window.scrollY > 400) scrollBtn.classList.add('show');
+      else scrollBtn.classList.remove('show');
+      updateActiveNav();
+    });
+  }
+  function updateActiveNav() {
+    const sections = ['home','intro','skin-type','services','articles','products','appointment','faq','contact'];
+    const links = document.querySelectorAll('.nav-link-custom');
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 120) current = id;
+    });
+    links.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+    });
+  }
+  document.getElementById('mobileToggle').addEventListener('click', () => {
+    mobileOpen = !mobileOpen;
+    const menu = document.getElementById('mobileMenu');
+    menu.style.display = mobileOpen ? 'block' : 'none';
+  });
+  function closeMobileMenu() {
+    mobileOpen = false;
+    document.getElementById('mobileMenu').style.display = 'none';
+  }
+  function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+  // ===================== SCROLL ANIMATIONS =====================
+  function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  }
+
+  // ===================== SKIN TYPE =====================
+  function selectSkinType(type) {
+    document.querySelectorAll('.skin-card').forEach(c => c.classList.remove('selected'));
+    document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+    const data = skinData[type];
+    const panel = document.getElementById('skinInfoPanel');
+    document.getElementById('skinTypeTitle').textContent = `${data.emoji} ${data.title}`;
+    document.getElementById('skinTypeDesc').textContent = data.desc;
+    renderSkinContent(data);
+    panel.classList.add('show');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    showTab('tips', document.querySelector('.info-tab'));
+  }
+
+  function renderSkinContent(data) {
+    const tipsEl = document.getElementById('tipsContent');
+    tipsEl.innerHTML = data.tips.map(t => `
+      <div class="tip-item">
+        <i class="fas fa-check-circle tip-icon"></i>
+        <span>${t}</span>
+      </div>`).join('');
+    const causesEl = document.getElementById('causesContent');
+    causesEl.innerHTML = data.causes.map(c => `
+      <div class="tip-item">
+        <i class="fas fa-circle-dot tip-icon"></i>
+        <span>${c}</span>
+      </div>`).join('');
+    const routineEl = document.getElementById('routineContent');
+    routineEl.innerHTML = data.routine.map(r => `
+      <div class="tip-item">
+        <i class="fas fa-sun tip-icon"></i>
+        <span>${r}</span>
+      </div>`).join('');
+    const profileEl = document.getElementById('skinProfile');
+    profileEl.innerHTML = data.profile.map(p => `
+      <div style="margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
+          <span style="font-size:0.82rem;color:var(--charcoal)">${p.label}</span>
+          <span style="font-size:0.82rem;color:var(--rose);font-weight:600">${p.val}%</span>
+        </div>
+        <div style="height:6px;background:var(--blush);border-radius:100px;overflow:hidden">
+          <div style="height:100%;width:${p.val}%;background:var(--rose);border-radius:100px;transition:width 0.8s ease"></div>
+        </div>
+      </div>`).join('');
+  }
+
+  function showTab(tab, btn) {
+    document.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.info-content').forEach(c => c.classList.remove('show'));
+    if (btn) btn.classList.add('active');
+    document.getElementById(`${tab}Content`).classList.add('show');
+  }
+
+  // ===================== ARTICLES =====================
+  function renderArticles(list) {
+    const grid = document.getElementById('articlesGrid');
+    grid.innerHTML = list.map(a => `
+      <div class="col-md-6 col-lg-4 fade-in article-item" data-category="${a.category}">
+        <div class="article-card">
+          <div class="article-img-wrap">
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--blush),rgba(201,123,90,0.25));display:flex;align-items:center;justify-content:center;font-size:4rem">${a.img}</div>
+            <span class="article-tag">${a.tag}</span>
+          </div>
+          <div class="article-body">
+            <div class="article-meta"><i class="fas fa-calendar-alt me-1"></i>${a.date}</div>
+            <h5>${a.title}</h5>
+            <p>${a.desc}</p>
+            <button class="read-more" onclick="openModal(${a.id})">
+              Read More <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>`).join('');
+    initScrollAnimations();
+  }
+
+  function filterArticles(cat, btn) {
+    document.querySelectorAll('.product-filter-bar .filter-btn, .d-flex .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = cat === 'all' ? articles : articles.filter(a => a.category === cat);
+    renderArticles(filtered);
+  }
+
+  function openModal(id) {
+    const article = articles.find(a => a.id === id);
+    document.getElementById('modalContent').innerHTML = `
+      <div style="font-size:4rem;text-align:center;margin-bottom:1.5rem">${article.img}</div>
+      <span style="background:var(--rose);color:white;border-radius:100px;padding:0.25rem 0.8rem;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">${article.tag}</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 0.5rem">${article.title}</h2>
+      <p style="color:var(--warm-gray);font-size:0.85rem;margin-bottom:1.5rem"><i class="fas fa-calendar-alt me-1"></i>${article.date}</p>
+      <p style="line-height:1.9;color:var(--charcoal)">${article.content}</p>`;
+    document.getElementById('articleModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('articleModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('articleModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ===================== PRODUCTS =====================
+  function renderProducts(list) {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = list.map(p => `
+      <div class="col-sm-6 col-lg-3 fade-in">
+        <div class="product-card">
+          <div class="product-img-wrap">${p.emoji}</div>
+          <div class="product-body">
+            <div class="product-type">${p.type}</div>
+            <h5>${p.name}</h5>
+            <p>${p.desc}</p>
+            <div class="product-footer">
+              <div class="product-price">${p.price}</div>
+              <span class="product-tag">${p.skinFor}</span>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+    initScrollAnimations();
+  }
+
+  function filterProducts(type, btn) {
+    document.querySelectorAll('.product-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = (type === 'all') ? products : products.filter(p => p.tags.includes(type) || p.tags.includes('all'));
+    renderProducts(filtered);
+  }
+
+  // ===================== FAQ =====================
+  function renderFAQ() {
+    const container = document.getElementById('faqContainer');
+    container.innerHTML = faqs.map((f, i) => `
+      <div class="faq-item" id="faq${i}">
+        <button class="faq-question" onclick="toggleFAQ(${i})">
+          <span>${f.q}</span>
+          <div class="faq-icon"><i class="fas fa-plus"></i></div>
+        </button>
+        <div class="faq-answer" id="faqAnswer${i}">
+          <div class="faq-answer-inner">${f.a}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function toggleFAQ(index) {
+    const item = document.getElementById(`faq${index}`);
+    const answer = document.getElementById(`faqAnswer${index}`);
+    const isOpen = item.classList.contains('open');
+    // Close all
+    faqs.forEach((_, i) => {
+      document.getElementById(`faq${i}`).classList.remove('open');
+      document.getElementById(`faqAnswer${i}`).style.maxHeight = '0';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  }
+
+  // ===================== APPOINTMENT FORM =====================
+  function setMinDate() {
+    const dateInput = document.getElementById('apptDate');
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    dateInput.min = today.toISOString().split('T')[0];
+  }
+
+  function showError(id, errorId, msg) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errorId);
+    el.classList.add('error');
+    err.textContent = msg;
+    err.classList.add('show');
+    return false;
+  }
+  function clearError(id, errorId) {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById(errorId).classList.remove('show');
+  }
+
+  document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+    const name = document.getElementById('apptName').value.trim();
+    const email = document.getElementById('apptEmail').value.trim();
+    const date = document.getElementById('apptDate').value;
+    const concern = document.getElementById('apptConcern').value;
+    clearError('apptName','nameError'); clearError('apptEmail','emailError');
+    clearError('apptDate','dateError'); clearError('apptConcern','concernError');
+    if (!name || name.length < 2) { showError('apptName','nameError','Please enter your full name (at least 2 characters).'); valid = false; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('apptEmail','emailError','Please enter a valid email address.'); valid = false; }
+    if (!date) { showError('apptDate','dateError','Please select a preferred appointment date.'); valid = false; }
+    if (!concern) { showError('apptConcern','concernError','Please select your primary skin concern.'); valid = false; }
+    if (!valid) return;
+    const booking = {
+      name, email, date, concern,
+      phone: document.getElementById('apptPhone').value,
+      skinType: document.getElementById('apptSkinType').value,
+      type: document.getElementById('apptType').value,
+      notes: document.getElementById('apptNotes').value,
+      timestamp: new Date().toISOString()
+    };
+    const bookings = JSON.parse(localStorage.getItem('skinConsultBookings') || '[]');
+    bookings.push(booking);
+    localStorage.setItem('skinConsultBookings', JSON.stringify(bookings));
+    this.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+    showToast('✓ Appointment booked! We\'ll contact you within 24 hours.');
+  });
+
+  // ===================== CONTACT FORM =====================
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+    const name = document.getElementById('ctName').value.trim();
+    const email = document.getElementById('ctEmail').value.trim();
+    const subject = document.getElementById('ctSubject').value.trim();
+    const message = document.getElementById('ctMessage').value.trim();
+    ['ctName','ctEmail','ctSubject','ctMessage'].forEach((id, i) => {
+      document.getElementById(id).classList.remove('error');
+      document.getElementById(['ctNameError','ctEmailError','ctSubjectError','ctMsgError'][i]).classList.remove('show');
+    });
+    if (!name) { showError('ctName','ctNameError','Your name is required.'); valid = false; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('ctEmail','ctEmailError','A valid email is required.'); valid = false; }
+    if (!subject) { showError('ctSubject','ctSubjectError','A subject is required.'); valid = false; }
+    if (!message || message.length < 10) { showError('ctMessage','ctMsgError','Please enter a message (at least 10 characters).'); valid = false; }
+    if (!valid) return;
+    const contacts = JSON.parse(sessionStorage.getItem('skinConsultMessages') || '[]');
+    contacts.push({ name, email, subject, message, timestamp: new Date().toISOString() });
+    sessionStorage.setItem('skinConsultMessages', JSON.stringify(contacts));
+    this.style.display = 'none';
+    document.getElementById('contactSuccess').classList.add('show');
+    showToast('✉ Message sent! We\'ll respond within 2–4 hours.');
+  });
+
+  // ===================== TOAST =====================
+  function showToast(msg) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast';
+    toast.innerHTML = `<i class="fas fa-check-circle toast-icon"></i><span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(40px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 4000);
+  }
+
+  // ===================== NEWSLETTER =====================
+  function subscribeNewsletter() {
+    const email = document.getElementById('newsletterEmail').value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email address.'); return; }
+    const subs = JSON.parse(localStorage.getItem('newsletterSubs') || '[]');
+    if (subs.includes(email)) { showToast('You\'re already subscribed!'); return; }
+    subs.push(email);
+    localStorage.setItem('newsletterSubs', JSON.stringify(subs));
+    document.getElementById('newsletterEmail').value = '';
+    showToast('🌸 Subscribed! Welcome to the SkinConsult community.');
+  }
+</script>
+</body>
+</html>
